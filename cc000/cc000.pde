@@ -21,6 +21,9 @@ void draw() {
             random( 440, 990 )
         ).draw();
     }
+    for( int i = 0; i < 8192; i++ ) {
+        glitch( random(width), random(height) );
+    }
 }
 
 private class OverlappedCircle {
@@ -106,6 +109,17 @@ class DecreasedHole {
             this.d += 0.5;
         }
     }
+}
+
+void glitch( float w, float h ) {
+    color c = get( int( w ), int( h ) );
+    strokeCap( SQUARE );
+    stroke( c, max( 128 * noise( w/width, h/height ), 100 ) );
+    pushMatrix();
+    translate( w, h );
+    rotate( PI * noise( w/width, h/height ) );
+    line( 0, 0, 200 * noise( w/width, h/height ), 0 );
+    popMatrix();
 }
 
 void keyPressed() {
