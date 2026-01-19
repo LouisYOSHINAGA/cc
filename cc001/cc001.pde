@@ -6,12 +6,21 @@ void setup() {
 }
 
 void draw() {
-    background( 30 );
-    for ( int i = 0; i < 128; i++ ) {
+    background( 110 );
+    for ( int i = 0; i < 16; i++ ) {
         new RotFlower( 
             random( width ), 
             random( height ), 
-            random( 400, 1000 ) 
+            random( 600, 1200 ),
+            random( 40, 80 )
+        ).draw();
+    }
+    for ( int i = 0; i < 64; i++ ) {
+        new RotFlower( 
+            random( width ), 
+            random( height ), 
+            random( 80, 480 ),
+            random( 20, 40 )
         ).draw();
     }
 }
@@ -39,13 +48,13 @@ private class RotFlower {
       private float r;  // radius of flower
       private float s;  // noise seed
       
-      RotFlower( float cw, float ch, float d ) {
+      RotFlower( float cw, float ch, float d, float a ) {
           this.n = int( random( 5, 12 ) );
           this.cw = cw;
           this.ch = ch;
           this.d = d;
           this.c = this.cs[ int( random( this.cs.length) ) ];
-          this.a = 15;
+          this.a = a;
           this.s = int( random( 1024 ) );
           noiseSeed( int( random( 1024 ) ) );
       }
@@ -54,7 +63,7 @@ private class RotFlower {
           pushMatrix();
           translate( this.cw, this.ch );
           for ( float t = 0; t < this.n*TWO_PI; t += PI/400 ) {
-              stroke( this.c, a );
+              stroke( this.c, this.a );
               line( 0,  0,  this.r * cos( t ), this.r * sin( t ) );
               this.update();
           }
@@ -63,7 +72,6 @@ private class RotFlower {
       
       private void update() {
           this.s += 0.04;
-          this.a *= map( noise( this.s ), 0, 1, 0.98, 1.02 );
           this.r = this.d / 2 * noise( this.s );
       }
 }
