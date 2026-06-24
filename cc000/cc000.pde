@@ -1,43 +1,44 @@
 /* cc000 */
 
+private final color[] cs = {
+    color(  39,  43,  87 ),
+    color(  38,  55, 130 ),
+    color(  84, 122, 170 ),
+    color( 200, 211, 221 ),
+    color(  79,  94, 117 ),
+    color(  45,  44,  45 ),
+    color( 233,  77,  71 ),
+    color( 237, 111,   0 ),
+    color( 251, 203, 114 )
+};
+
 void setup() {
     size( 1150, 800 );
     noLoop();
 }
 
-void draw() {    
-    background( 0 );
-    for( int i = 0; i < 64; i++ ) {
-        new OverlappedCircle(
-            int( random( 120, 180 ) ),
-            0, width,
-            64, 1024
-        ).draw();
-    }    
-    for( int i = 0; i < 6; i++ ) {
-        new DecreasedHole(
-            random( width ),
-            random( height ),
-            random( 440, 990 )
-        ).draw();
+void draw() {
+    background( 240 );
+    
+    blendMode(BLEND);
+    for( int i = 0; i < 18; i++ ) {
+          new OverlappedCircle( int( random( 120, 180 ) ) ).draw();
     }
-    for( int i = 0; i < 8192; i++ ) {
-        glitch( random(width), random(height) );
+    
+    blendMode(DIFFERENCE);
+    noStroke();
+    for( int i = 0; i < 24; i++ ){
+          fill( cs[ int( random( cs.length ) ) ] );
+          circle( random( width ), random( height ), random( 80, 480 ) );
+    }
+    
+    blendMode(BLEND);
+    for( int i = 0; i < 8; i++ ) {
+          new OverlappedCircle( int( random( 180, 240 ) ) ).draw();
     }
 }
 
-private class OverlappedCircle {
-    final color[] cs = {
-        color( 165,  26,  41 ), 
-        color(  68,  81,  54 ), 
-        color(  33,  22,  10 ), 
-        color(  39,  43,  87 ),
-        color(  38,  55, 130 ),
-        color(  84, 122, 170 ),
-        color( 200, 211, 221 ),
-        color(  79,  94, 117 ),
-        color(  45,  44,  45 )
-    };
+private class OverlappedCircle {        
     private final int n;  // number of iteration
     private final float d;  // adjustment element
     private int cw, ch;  // center width, height
@@ -55,8 +56,8 @@ private class OverlappedCircle {
     }
     
     private void selectStrokeColor() {
-        strokeWeight( random( 0.8, 2.4 ) );
-        stroke( this.cs[ int( random( cs.length ) ) ], random( 64, 128 ) );
+        strokeWeight( random( 0.8, 3.2 ) );
+        stroke( cs[ int( random( cs.length ) ) ], random( 50, 100 ));
         noFill();
     }
     
@@ -71,11 +72,11 @@ private class OverlappedCircle {
             ellipse( 0, 0, this.ew, this.eh );
             popMatrix();
 
-            this.cw += random( -1, 1 ) / this.d;
-            this.ch += random( -1, 1 ) / this.d;
-            this.ew += random( -1, 1 ) / this.d;
-            this.eh += random( -1, 1 ) / this.d;
-            this.t += noise( sin( TAU * i/this.n ) ) / this.d;
+            cw += random( -1, 1 ) / d;
+            ch += random( -1, 1 ) / d;
+            ew += random( -1, 1 ) / d;
+            eh += random( -1, 1 ) / d;
+            t += noise( sin( TAU * i/this.n ) ) / d;
         }
     }
 }
