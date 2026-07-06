@@ -1,15 +1,5 @@
 /* cc003 */
 
-final color cs[] = {
-  color(240, 145, 153),
-  color(242, 160, 161),
-  color(254, 244, 244),
-  color(239, 132, 104),
-  color(244, 165, 131),
-  color(252, 226, 196),
-  color(185, 64, 71)
-};
-
 void setup() {
   size(1150, 800);
   noLoop();
@@ -18,25 +8,34 @@ void setup() {
 void draw() {
   background(0);
 
-  blendMode(EXCLUSION);
-  noStroke();
-  for (int i = 0; i < 16; i++) {
-    fill(cs[(int)random(cs.length)]);
-    circle(random(width), random(height), random(256, 768));
+  for (int i = 0; i < 512; i++) {
+    beziers((int)random(32, 256));
   }
 
-  blendMode(BLEND);
-  noFill();
+  noStroke();
+  fill(240, 0, 0, 100);
+  circle(width/2, height/2, 720);
+
   for (int i = 0; i < 64; i++) {
-    stroke(cs[(int)random(cs.length)]);
     beziers((int)random(32, 128));
   }
 }
 
 void beziers(int n) {
-  noiseSeed((int)random(1024));
-
+  final color cs[] = {
+    color(240, 145, 153),
+    color(242, 160, 161),
+    color(254, 244, 244),
+    color(239, 132, 104),
+    color(244, 165, 131),
+    color(252, 226, 196),
+    color(185, 64, 71)
+  };
   final float R = random(0.8, 1.2);
+
+  noiseSeed((int)random(1024));
+  stroke(cs[(int)random(cs.length)]);
+  noFill();
 
   float sx = random((1-R)*width, R*width);
   float sy = random((1-R)*height, R*height);
@@ -67,7 +66,6 @@ void keyPressed() {
     saveFrame("cc003.png");
     exit();
   } else if ( key == 'r' ) {
-    noiseSeed((int)random(1024));
     redraw();
   }
 }
