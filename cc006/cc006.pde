@@ -4,11 +4,11 @@ final color[] cs = {
     color(149, 155, 169),
     color( 94, 101, 102),
     color(211, 210, 191),
-    color( 36, 49, 70),
-    color( 62, 49, 70),
-    color( 62, 87, 112),
-    color(217, 117, 86),
-    color(241, 173, 95),
+    color( 36,  49,  70),
+    color( 62,  49,  70),
+    color( 62,  87, 112),
+    color(217, 117,  86),
+    color(241, 173,  95),
     color(225, 198, 192),
     color(224, 140, 122)
 };
@@ -23,10 +23,10 @@ void setup() {
 void draw() {
     background(240);
     for (int i = 0; i < 32; i++) {
-        drawGrowthRing(random(width), random(height), random(0.8, 1.2));
+        drawGrowthRing(random(width), random(height), random(0.6, 1.4));
     }
-    for (int i = 0; i < 24; i++) {
-        drawGrowthRing(random(width), random(height), random(0.4, 0.8));
+    for (int i = 0; i < 48; i++) {
+        drawGrowthRing(random(width), random(height), random(0.4, 0.6));
     }
 }
 
@@ -38,15 +38,16 @@ void drawGrowthRing(float w, float h, float s) {
     rotate(random(-PI, PI));
     scale(s);
 
-    noStroke();
-    fill(cs[(int)random(cs.length)], 18);
+    strokeWeight(map(s, 0.4, 1.4, 1.6, 3.2));
+    stroke(cs[(int)random(cs.length)]);
+    fill(cs[(int)random(cs.length)], 24);
 
     float rBase, r;
     for (int i = 0; i < 32; i++) {
-        rBase = 16 + (6 + 0.08 * random(-1, 1)) * i;
+        rBase = 16 + (4 + 0.8 * random(-1, 1)) * i;
         beginShape();
         for (float t = 0; t < TWO_PI+3*D_TWO_PI; t += D_TWO_PI) {
-            r = rBase * (1 + 0.25 * periodicNoise(t));
+            r = rBase * (1 + 2.0 * periodicNoise(t));
             vertex(r*cos(t), r*sin(t));
         }
         endShape(CLOSE);
